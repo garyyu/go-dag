@@ -33,22 +33,28 @@ type Block struct {
 }
 
 
+/*
+ * if a block's Next is not in G, then it's a Tip
+ */
 func FindTips(G map[string]*Block) map[string]*Block {
 
 	tips := make(map[string]*Block)
-	for k, v := range G {
-		tips[k] = v
-	}
 
-	for _, v := range G {
-		for _, prev := range v.Prev {
-			// if block is referenced by anyone, then it must not a tip
-			_, ok := tips[prev.Name]
-			if ok {
-				delete(tips, prev.Name)
+	checkNextBlock:
+		for k, v := range G {
+
+			if len(v.Next)==0 {
+				tips[k] = v
+			}else{
+				for next := range v.Next {
+					if _,ok := G[next]; ok {
+						continue checkNextBlock
+					}
+				}
+
+				tips[v.Name] = v
 			}
 		}
-	}
 
 	return tips
 }
@@ -137,12 +143,15 @@ func IsBlueBlock(B *Block) bool {
 
 func SizeOfPastSet(B *Block) int{
 
-	sizeOfPastSet := len(B.Prev)
-	for _, prev := range B.Prev {
-		sizeOfPastSet = sizeOfPastSet + SizeOfPastSet(prev)
-	}
+	//sizeOfPastSet := len(B.Prev)
+	//for _, prev := range B.Prev {
+	//	sizeOfPastSet = sizeOfPastSet + SizeOfPastSet(prev)
+	//}
+	//return sizeOfPastSet
 
-	return sizeOfPastSet
+	past := make(map[string]*Block)
+	pastSet(B, past)
+	return len(past)
 }
 
 /*
@@ -190,8 +199,8 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 			// recovering from a panic; x contains whatever was passed to panic()
 			fmt.Println("CalcBlue(): tip=", topTip.Name, ". run time panic =", x)
 
-			//panic(x)
-			os.Exit(-1)
+			panic(x)
+			//os.Exit(-1)
 		}
 	}()
 
@@ -210,6 +219,11 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 
 	// step 4
 	tips := FindTips(G)
+	if len(tips)==0 {
+		fmt.Println("calcBlue(): error! impossible! Tips Empty.")
+		os.Exit(-1)
+	}
+
 	maxBlue := -1
 	var Bmax *Block = nil
 
@@ -242,6 +256,11 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 				Bmax = tip
 			}
 		}
+	}
+
+	if Bmax==nil {
+		fmt.Println("calcBlue(): error! impossible! Bmax=nil.")
+		os.Exit(-1)
 	}
 
 	// step 7
