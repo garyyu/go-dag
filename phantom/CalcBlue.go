@@ -33,7 +33,7 @@ type Block struct {
 }
 
 
-func findTips(G map[string]*Block) map[string]*Block {
+func FindTips(G map[string]*Block) map[string]*Block {
 
 	tips := make(map[string]*Block)
 	for k, v := range G {
@@ -197,7 +197,7 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 
 	if len(G)==1 {
 		if _,ok := G["Genesis"]; ok {
-			fmt.Println("CalcBlue(): return from Genesis")
+			//fmt.Println("CalcBlue(): return from Genesis")
 			return
 		}else{
 			fmt.Println("CalcBlue(): error! len(G)=1 but not Genesis block")
@@ -209,7 +209,7 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 	}
 
 	// step 4
-	tips := findTips(G)
+	tips := FindTips(G)
 	maxBlue := -1
 	var Bmax *Block = nil
 
@@ -222,7 +222,7 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 		past := make(map[string]*Block)
 		pastSet(tip, past)
 
-		fmt.Println("calcBlue(): info of next recursive call - tip=", tip.Name, " past=", len(past))
+		//fmt.Println("calcBlue(): info of next recursive call - tip=", tip.Name, " past=", len(past))
 
 		// step 5
 		CalcBlue(past, k, tip)

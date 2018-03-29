@@ -48,7 +48,9 @@ func chainInitialize() map[string]*Block{
 	ChainAddBlock("J", []string{"B","G","E"}, chain)
 	ChainAddBlock("K", []string{"D","H"}, chain)
 
-	ChainAddBlock("Virtual", []string{"I","J", "K"}, chain)
+	tips := FindTips(chain)
+	tipsName := LTPQ(tips, true)	// LTPQ is not relevant here, I just use it to get Tips name.
+	ChainAddBlock("Virtual", tipsName, chain)
 
 	fmt.Println("chainInitialize(): done. blocks=", len(chain)-1)
 
@@ -59,6 +61,9 @@ func chainInitialize() map[string]*Block{
 
 func main() {
 
+	fmt.Println("\n-  Phantom Paper Simulation - Algorithm 2: Ordering of the DAG.   -")
+	fmt.Println("-  example on page 3 Fig.2, page 8 'C. Step #2: ordering blocks'  -\n")
+
 	chainInitialize()
 
 	ordered_list := Order(chain, 3)
@@ -66,9 +71,6 @@ func main() {
 	// print the result of blue sets
 
 	ltpq := LTPQ(chain, true)
-
-	fmt.Println("\n-  Phantom Paper Simulation - Algorithm 2: Ordering of the DAG.   -")
-	fmt.Println("-  example on page 3 Fig.2, page 8 'C. Step #2: ordering blocks'  -\n")
 
 	fmt.Print("blue set selection done. blue blocks = ")
 	nBlueBlocks := 0

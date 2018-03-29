@@ -48,7 +48,9 @@ func chainInitialize() map[string]*Block{
 	ChainAddBlock("L", []string{"D","I"}, chain)
 	ChainAddBlock("M", []string{"F","K"}, chain)
 
-	ChainAddBlock("Virtual", []string{"J","M", "L"}, chain)
+	tips := FindTips(chain)
+	tipsName := LTPQ(tips, true)	// LTPQ is not relevant here, I just use it to get Tips name.
+	ChainAddBlock("Virtual", tipsName, chain)
 
 	fmt.Println("chainInitialize(): done. blocks=", len(chain)-1)
 
@@ -59,6 +61,9 @@ func chainInitialize() map[string]*Block{
 
 func main() {
 
+	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
+	fmt.Println("-                   The example on page 7 Fig.3.                   -\n")
+
 	chainInitialize()
 
 	CalcBlue(chain, 3, chain["Virtual"])
@@ -66,9 +71,6 @@ func main() {
 	// print the result of blue sets
 
 	ltpq := LTPQ(chain, true)
-
-	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
-	fmt.Println("-                   The example on page 7 Fig.3.                   -\n")
 
 	fmt.Print("blue set selection done. blue blocks = ")
 	nBlueBlocks := 0
