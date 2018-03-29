@@ -9,13 +9,13 @@ They have setup a start-up company to develop BlockDAG since Q4 2017, their webs
 
 # How to build
 
-###build the example in the paper page 7 Fig.3 :
+### build the example in the paper page 7 Fig.3 :
 
 ```bash
 $ go build blueSetSelection.go 
 ```
 
-###build the example in the paper page 16 Fig.4 :
+### build the example in the paper page 16 Fig.4 :
 
 ```bash
 $ go build figure4.go

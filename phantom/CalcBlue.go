@@ -18,14 +18,15 @@
 package phantom
 
 import (
-	"strings"
 	"fmt"
 	"os"
+	"sort"
 )
 
 type Block struct {
 	Name string					// Name used for simulation. In reality, block header hash can be used as the 'Name' of a block.
 	Score int
+	SizeOfPastSet int			// Size of its past set (blocks). It's fixed number once a block is created, and can't change anymore.
 	Prev map[string]*Block
 	Next map[string]*Block		// Block don't have this info, it comes from the analysis of existing chain
 	Blue map[string]bool		// Blue is relative to each Tip
@@ -115,6 +116,73 @@ func antiCone(G map[string]*Block, B *Block) map[string]*Block{
 	return anticone
 }
 
+func IsBlueBlock(B *Block) bool {
+
+	if B==nil {
+		return false
+	}
+
+	if B.Name=="Genesis" {
+		return true
+	}
+
+	for _,blue := range B.Blue {
+		if blue==true {
+			return true
+		}
+	}
+
+	return false
+}
+
+func SizeOfPastSet(B *Block) int{
+
+	sizeOfPastSet := len(B.Prev)
+	for _, prev := range B.Prev {
+		sizeOfPastSet = sizeOfPastSet + SizeOfPastSet(prev)
+	}
+
+	return sizeOfPastSet
+}
+
+/*
+ * lexicographical topological priority queue
+ */
+func LTPQ(G map[string]*Block, ascending bool) []string{
+
+	ltpq := make([]struct {
+		Name string
+		SizeOfPastSet  int
+	}, len(G))
+
+	i:=0
+	for _, block := range G {
+		ltpq[i].Name, ltpq[i].SizeOfPastSet = block.Name, block.SizeOfPastSet
+		i++
+	}
+
+	/*
+	 * The priority of a block is represented by the size of its past set; in case of ties, the block with lowest hash ID is chosen.
+	 */
+	sort.Slice(ltpq, func(i, j int) bool {
+		return ltpq[i].SizeOfPastSet < ltpq[j].SizeOfPastSet || (ltpq[i].SizeOfPastSet == ltpq[j].SizeOfPastSet && ltpq[i].Name < ltpq[j].Name)
+		})
+
+	priorityQue := make([]string, len(ltpq))
+
+	if ascending==true {	// asc: little first
+		for i := 0; i < len(ltpq); i++ {
+			priorityQue[i] = ltpq[i].Name
+		}
+	}else{					// desc: big first
+		for i,j := len(ltpq)-1,0; i >= 0; i,j = i-1,j+1 {
+			priorityQue[j] = ltpq[i].Name
+		}
+	}
+
+	return priorityQue
+}
+
 func CalcBlue(G map[string]*Block, k int, topTip *Block){
 
 	defer func() {
@@ -140,16 +208,23 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 		os.Exit(-1)
 	}
 
-	// step 4,5
+	// step 4
 	tips := findTips(G)
 	maxBlue := -1
 	var Bmax *Block = nil
-	for _, tip := range tips {
+
+	// step 4'	 	Starting from the highest scoring tip (to be continued...  for the moment, I use reversed LTPQ.)
+	var ltpq = LTPQ(tips, false)
+
+	for _, name := range ltpq {
+		tip := tips[name]		// step 4'
+
 		past := make(map[string]*Block)
 		pastSet(tip, past)
 
 		fmt.Println("calcBlue(): info of next recursive call - tip=", tip.Name, " past=", len(past))
 
+		// step 5
 		CalcBlue(past, k, tip)
 
 		// step 6
@@ -159,7 +234,11 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 			Bmax = tip
 		} else if blueBlocks==maxBlue {
 			// tie-breaking
-			if strings.Compare(tip.Name,Bmax.Name)>0 {
+			/*
+			 * Important Note: in some cases, the tie-breaking method will decide the final blue selection result! not always converge to maximum k-cluster SubDAG.
+			 *				   research to be continued.
+			 */
+			if tip.Name < Bmax.Name {
 				Bmax = tip
 			}
 		}
@@ -177,19 +256,24 @@ func CalcBlue(G map[string]*Block, k int, topTip *Block){
 	}
 	Bmax.Blue[Bmax.Name] = true		// BLUEk(G) = BLUEk(Bmax) U {Bmax}
 
-	// step 8,9,10
+	// step 8
 	anticoneBmax := antiCone(G, Bmax)
-	for _, B := range anticoneBmax {
+	ltpq = LTPQ(anticoneBmax, true)			// in 'some' topological ordering: LTPQ
+	for _, name := range ltpq {
+
+		B := anticoneBmax[name]
+
+		// step 9
 		nBlueAnticone := 0
 		anticone := antiCone(G, B)
 		for _, block := range anticone {
-			if block.Blue[Bmax.Name]==true {
+			if IsBlueBlock(block)==true {
 				nBlueAnticone++
 			}
 		}
 
 		if nBlueAnticone<=k {
-			B.Blue[Bmax.Name] = true
+			B.Blue[Bmax.Name] = true	// step 10
 		}
 	}
 
