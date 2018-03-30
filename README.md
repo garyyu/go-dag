@@ -9,22 +9,32 @@ They have setup a start-up company to develop BlockDAG since Q4 2017, their webs
 
 # How to build
 
-Build the example on the paper **P.7 Fig.3**, for **algorithm 1: Selection of a blue set**.
+Run the simulation for the example on the paper P.7 Fig.3, for algorithm 1 **Selection of a blue set**.
 
 ```bash
-$ go build blueSetSelection.go 
+$ go test -run=Fig3
 ```
 
-Build the example on the paper **P.16 Fig.4**, for **algorithm 1: Selection of a blue set**.
+Run the simulation for the example on the paper P.16 Fig.4, for algorithm 1 **Selection of a blue set**.
 
 ```bash
-$ go build figure4.go
+$ go test -run=Fig4
 ```
 
-Build the example on **P.3 Fig.2, P.8 'C. Step #2: ordering blocks'**, for **algorithm 2: Ordering of the DAG**.
+Run the simulation for the example on P.3 Fig.2, P.8 "C. Step #2", for algorithm 2 **Ordering of the DAG**.
 
 ```bash
-$ go build figure2.go
+$ go test -run=Fig2
+```
+
+Run the benchmark test:
+
+```bash
+$ go test ./phantom -bench=Blocks -benchmem
+
+$ go test ./ -test.bench BlueSelection -benchmem  -run=^$
+
+$ go test ./ -test.bench BlockOrdering -benchmem  -run=^$
 ```
 
 

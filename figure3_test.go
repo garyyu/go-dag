@@ -22,6 +22,7 @@ import (
 	."github.com/garyyu/go-phantom/phantom"
 	."github.com/garyyu/go-phantom/utils"
 	"testing"
+	"bytes"
 )
 
 
@@ -52,8 +53,6 @@ func chainFig3Initialize() map[string]*Block{
 	tipsName := LTPQ(tips, true)	// LTPQ is not relevant here, I just use it to get Tips name.
 	ChainAddBlock("Virtual", tipsName, chain)
 
-	fmt.Println("chainInitialize(): done. blocks=", len(chain)-1)
-
 	return chain
 }
 
@@ -62,10 +61,15 @@ func chainFig3Initialize() map[string]*Block{
 //
 func TestFig3(t *testing.T) {
 
+	var actual bytes.Buffer
+	var expected string
+
 	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
 	fmt.Println("-                   The example on page 7 Fig.3.                   -\n")
 
 	chain := chainFig3Initialize()
+
+	fmt.Println("chainInitialize(): done. blocks=", len(chain)-1)
 
 	CalcBlue(chain, 3, chain["Virtual"])
 
@@ -75,19 +79,32 @@ func TestFig3(t *testing.T) {
 
 	fmt.Print("blue set selection done. blue blocks = ")
 	nBlueBlocks := 0
+	actual.Reset()
 	for _, name := range ltpq {
 		block := chain[name]
 		if IsBlueBlock(block)==true {
 			if name=="Genesis" || name=="Virtual" {
-				fmt.Print("(",name[:1],").")
+				actual.WriteString(fmt.Sprintf("(%s).",name[:1]))
 			}else {
-				fmt.Print(block.Name, ".")
+				actual.WriteString(name+".")
 			}
 
 			nBlueBlocks++
 		}
 	}
-	fmt.Println("	total blue:", nBlueBlocks)
-	t.Error("I'm in a bad mood.")
+	fmt.Println(actual.String(), "	total blue:", nBlueBlocks)
+
+	expected = "(G).C.D.E.I.H.J.K.M.(V)."
+	if actual.String() != expected {
+		t.Errorf("blue selection test not matched. expected=%s", expected)
+	}
+}
+
+func BenchmarkBlueSelection(b *testing.B) {
+
+	for i := 0; i < b.N; i++ {
+		chain := chainFig3Initialize()
+		CalcBlue(chain, 3, chain["Virtual"])
+	}
 }
 
