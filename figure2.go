@@ -21,15 +21,14 @@ import (
 	"fmt"
 	."github.com/garyyu/go-phantom/phantom"
 	."github.com/garyyu/go-phantom/utils"
+	"testing"
 )
 
-var chain map[string]*Block
 
-
-func chainInitialize() map[string]*Block{
+func chainFig2Initialize() map[string]*Block{
 
 	//initial an empty chain
-	chain = make(map[string]*Block)
+	chain := make(map[string]*Block)
 
 	//add blocks
 
@@ -59,12 +58,14 @@ func chainInitialize() map[string]*Block{
 
 
 
-func main() {
+// Tests Algorithm 2 Ordering of the DAG, with the example on paper page 3 Fig.2
+//
+func TestFig2(t *testing.T) {
 
 	fmt.Println("\n-  Phantom Paper Simulation - Algorithm 2: Ordering of the DAG.   -")
 	fmt.Println("-  example on page 3 Fig.2, page 8 'C. Step #2: ordering blocks'  -\n")
 
-	chainInitialize()
+	chain := chainFig2Initialize()
 
 	ordered_list := Order(chain, 3)
 

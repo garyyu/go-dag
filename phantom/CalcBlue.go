@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"testing"
 )
 
 type Block struct {
@@ -30,6 +31,15 @@ type Block struct {
 	Prev map[string]*Block
 	Next map[string]*Block		// Block don't have this info, it comes from the analysis of existing chain
 	Blue map[string]bool		// Blue is relative to each Tip
+}
+
+var testBlock *Block
+
+func BenchmarkEmptyBlock(b *testing.B) {
+
+	for i := 0; i < b.N; i++ {
+		testBlock = new(Block)
+	}
 }
 
 

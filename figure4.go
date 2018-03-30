@@ -21,15 +21,14 @@ import (
 	"fmt"
 	."github.com/garyyu/go-phantom/phantom"
 	."github.com/garyyu/go-phantom/utils"
+	"testing"
 )
 
-var chain map[string]*Block
 
-
-func chainInitialize() map[string]*Block{
+func chainFig4Initialize() map[string]*Block{
 
 	//initial an empty chain
-	chain = make(map[string]*Block)
+	chain := make(map[string]*Block)
 
 	//add blocks
 
@@ -70,13 +69,14 @@ func chainInitialize() map[string]*Block{
 }
 
 
-
-func main() {
+// Tests Algorithm 1 Selection of a blue set, with the example on paper page 16 Fig.4
+//
+func TestFig4(t *testing.T) {
 
 	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
 	fmt.Println("-                    The example on page 16 Fig.4.                 -\n")
 
-	chainInitialize()
+	chain := chainFig4Initialize()
 
 	//CalcBlue(chain, 3, chain["Virtual"])
 	ordered_list := Order(chain, 3)
