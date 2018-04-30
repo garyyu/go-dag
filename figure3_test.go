@@ -19,8 +19,8 @@ package main
 
 import (
 	"fmt"
-	."github.com/garyyu/go-phantom/phantom"
-	."github.com/garyyu/go-phantom/utils"
+	."github.com/garyyu/go-dag/blockdag"
+	."github.com/garyyu/go-dag/utils"
 	"testing"
 	"bytes"
 )
@@ -64,8 +64,8 @@ func TestFig3(t *testing.T) {
 	var actual bytes.Buffer
 	var expected string
 
-	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
-	fmt.Println("-                   The example on page 7 Fig.3.                   -")
+	fmt.Println("\n- BlockDAG Algorithms Simulation - Algorithm 1: Selection of a blue set. -")
+	fmt.Println("-                   The example on Fig.3.                   -")
 
 	chain := chainFig3Initialize()
 

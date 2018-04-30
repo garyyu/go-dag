@@ -21,6 +21,6 @@ import "fmt"
 
 func main() {
 
-	fmt.Println("[ Phantom Paper Algorithm Simulation ]")
+	fmt.Println("[ BlockDAG Algorithm Simulation ]")
 
 }

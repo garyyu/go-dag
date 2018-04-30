@@ -19,7 +19,7 @@ package utils
 import (
 	"os"
 	"fmt"
-	."github.com/garyyu/go-phantom/phantom"
+	."github.com/garyyu/go-dag/blockdag"
 )
 
 

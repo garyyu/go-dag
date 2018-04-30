@@ -1,15 +1,17 @@
-# phantom
-BlockDAG algorithm's Go language simulation for paper "PHANTOM: A Scalable BlockDAG protocol".
+# BlockDAG
+BlockDAG algorithms Go Lang simulation.
 
-Here is the [paper link on International Association for Cryptologic Research (IACR)](https://eprint.iacr.org/2018/104.pdf) by **Yonatan Sompolinsky** and **Aviv Zohar** in Feb. 2018.
+BlockChain (for example Bitcoin, Etherum, etc.) is just a 'k=0' special subtype of BlockDAG, that's why they suffer from the highly restrictive throughput. DAG is the future!
 
-They have setup a start-up company to develop BlockDAG since Q4 2017, their website: [https://www.daglabs.com]. And there's an official DAGlabs slack channel: [https://daglabs.slack.com].
+Thanks **Yonatan Sompolinsky** and **Aviv Zohar** for the most important contributions on blockDAG research, and their great paper "PHANTOM: A Scalable BlockDAG protocol" on [International Association for Cryptologic Research (IACR)](https://eprint.iacr.org/2018/104.pdf) by in Feb. 2018.
+
+They setup a start-up company to develop BlockDAG since Q4 2017, their website: [https://www.daglabs.com]. And there's an official DAGlabs slack channel: [https://daglabs.slack.com].
 
 ---
 
-# How to build
+# How to build this simulation
 
-My Go Lang environment:
+Here is my Go Lang environment, the other Go version such as 1.9 should also be OK.
 ```bash
 $ go version
 go version go1.10.1 darwin/amd64
@@ -22,7 +24,7 @@ $ go test -run=Fig4
 ```
 
 To add a new example DAG to see the DAG blue selection behaviour, it's quite easy. For example, to test a DAG in this figure 'Fig.4', just add a piece of codes like this:
-![Fig.4](https://github.com/garyyu/go-phantom/blob/master/pics/Fig.4.jpg)
+![Fig.4](https://github.com/garyyu/go-dag/blob/master/pics/Fig.4.jpg)
 
 ```golang
 	ChainAddBlock("Genesis", []string{}, chain)
