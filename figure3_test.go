@@ -65,7 +65,7 @@ func TestFig3(t *testing.T) {
 	var expected string
 
 	fmt.Println("\n- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -")
-	fmt.Println("-                   The example on page 7 Fig.3.                   -\n")
+	fmt.Println("-                   The example on page 7 Fig.3.                   -")
 
 	chain := chainFig3Initialize()
 

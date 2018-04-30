@@ -61,7 +61,10 @@ func FindTips(G map[string]*Block) map[string]*Block {
 func pastSet(B *Block, past map[string]*Block){
 
 	for k, v := range B.Prev {
-		pastSet(v, past)
+
+		if _,ok := past[k]; !ok {
+			pastSet(v, past)
+		}
 		past[k] = v
 	}
 }
@@ -69,8 +72,11 @@ func pastSet(B *Block, past map[string]*Block){
 func futureSet(B *Block, future map[string]*Block){
 
 	for k, v := range B.Next {
+
+		if _,ok := future[k]; !ok {
+			futureSet(v, future)
+		}
 		future[k] = v
-		futureSet(v, future)
 	}
 }
 
@@ -80,7 +86,7 @@ func countBlue(G map[string]*Block, tip *Block) int{
 	var blueBlocks = 0
 	for _, v := range G {
 		if blue, ok := v.Blue[tip.Name]; ok {
-			if blue==true{
+			if blue {
 				blueBlocks++
 			}
 		} else if v.Name=="Genesis"{
@@ -142,12 +148,6 @@ func IsBlueBlock(B *Block) bool {
 
 func SizeOfPastSet(B *Block) int{
 
-	//sizeOfPastSet := len(B.Prev)
-	//for _, prev := range B.Prev {
-	//	sizeOfPastSet = sizeOfPastSet + SizeOfPastSet(prev)
-	//}
-	//return sizeOfPastSet
-
 	past := make(map[string]*Block)
 	pastSet(B, past)
 	return len(past)
@@ -193,19 +193,8 @@ func LTPQ(G map[string]*Block, ascending bool) []string{
 
 func CalcBlue(G map[string]*Block, k int, topTip *Block){
 
-	defer func() {
-		if x := recover(); x != nil {
-			// recovering from a panic; x contains whatever was passed to panic()
-			fmt.Println("CalcBlue(): tip=", topTip.Name, ". run time panic =", x)
-
-			panic(x)
-			//os.Exit(-1)
-		}
-	}()
-
 	if len(G)==1 {
 		if _,ok := G["Genesis"]; ok {
-			//fmt.Println("CalcBlue(): return from Genesis")
 			return
 		}else{
 			fmt.Println("CalcBlue(): error! len(G)=1 but not Genesis block")

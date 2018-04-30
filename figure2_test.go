@@ -65,7 +65,7 @@ func TestFig2(t *testing.T) {
 	var expected string
 
 	fmt.Println("\n-  Phantom Paper Simulation - Algorithm 2: Ordering of the DAG.   -")
-	fmt.Println("-        The example on page 3 Fig.2, page 8 'C. Step #2'         -\n")
+	fmt.Println("-        The example on page 3 Fig.2, page 8 'C. Step #2'         -")
 
 	chain := chainFig2Initialize()
 
@@ -110,7 +110,7 @@ func TestFig2(t *testing.T) {
 			actual.WriteString(name+".")
 		}
 	}
-	fmt.Println(actual.String(),"\n")
+	fmt.Println(actual.String())
 
 	expected = "(G).B.C.D.F.G.I.J.(V).E.H.K."
 	if actual.String() != expected {
