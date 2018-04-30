@@ -3,7 +3,7 @@ BlockDAG algorithms Go Lang simulation.
 
 BlockChain (for example Bitcoin, Etherum, etc.) is just a 'k=0' special subtype of BlockDAG, that's why they suffer from the highly restrictive throughput. DAG is the future!
 
-Thanks **Yonatan Sompolinsky** and **Aviv Zohar** for the most important contributions on blockDAG research, and their great paper "PHANTOM: A Scalable BlockDAG protocol" on [International Association for Cryptologic Research (IACR)](https://eprint.iacr.org/2018/104.pdf) by in Feb. 2018.
+Thanks **Yonatan Sompolinsky** and **Aviv Zohar** for the most important contributions on blockDAG research, and their great paper "PHANTOM: A Scalable BlockDAG protocol" on [International Association for Cryptologic Research (IACR)](https://eprint.iacr.org/2018/104.pdf) in Feb. 2018.
 
 They setup a start-up company to develop BlockDAG since Q4 2017, their website: [https://www.daglabs.com]. And there's an official DAGlabs slack channel: [https://daglabs.slack.com].
 
@@ -57,7 +57,7 @@ To add a new example DAG to see the DAG blue selection behaviour, it's quite eas
 
 # Click to Run the demo
 
-And *Run it in Go Playground*:  ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)[Click to Run](https://play.golang.org/p/n8ckn-8X0CA)![#c5f015](https://placehold.it/15/c5f015/000000?text=+). You can *edit* your blockDAG example and *run* the 'blue selection algorithm' online!
+And *Run it in Go Playground* :   ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)[Click to Run](https://play.golang.org/p/n8ckn-8X0CA)![#c5f015](https://placehold.it/15/c5f015/000000?text=+). You can **edit** your blockDAG example and **run** the 'blue selection algorithm' online!
 The output will be like this:
 ```console
 - BlockDAG Algorithms Simulation - Algorithm 1: Selection of a blue set. -
