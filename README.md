@@ -1,4 +1,4 @@
-# BlockDAG
+# GoDAG
 BlockDAG algorithms Go Lang simulation.
 
 BlockChain (for example Bitcoin, Etherum, etc.) is just a 'k=0' special subtype of BlockDAG, that's why they suffer from the highly restrictive throughput. DAG is the future!
