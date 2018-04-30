@@ -57,10 +57,10 @@ To add a new example DAG to see the DAG blue selection behaviour, it's quite eas
 
 # Click to Run the demo
 
-And *Run it in Go Playground*:  [Click to Run](https://play.golang.org/p/n8ckn-8X0CA). You can *edit* your blockDAG example and *run* the 'blue selection algorithm' online!
+And *Run it in Go Playground*:  ![#c5f015](https://placehold.it/15/c5f015/000000?text=+)[Click to Run](https://play.golang.org/p/n8ckn-8X0CA)![#c5f015](https://placehold.it/15/c5f015/000000?text=+). You can *edit* your blockDAG example and *run* the 'blue selection algorithm' online!
 The output will be like this:
 ```console
-- Phantom Paper Simulation - Algorithm 1: Selection of a blue set. -
+- BlockDAG Algorithms Simulation - Algorithm 1: Selection of a blue set. -
 chainInitialize(): done. blocks= 20
 blue set selection done. blue blocks = (G).B.C.D.F.I.J.K.O.P.M.R.(V). 	total blue: 13
 ```
