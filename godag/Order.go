@@ -65,8 +65,7 @@ func Order(chain map[string]*Block, k int) []string {
 		order ++
 
 		// step 9
-		childrenB := make(map[string]*Block)
-		futureSet(B, childrenB)
+		childrenB := B.Next
 
 		// step 9'		in 'some' topological ordering: LTPQ
 		ltpq := LTPQ(childrenB, true)

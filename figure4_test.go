@@ -124,7 +124,7 @@ func TestFig4(t *testing.T) {
 	}
 	fmt.Println(actual.String())
 
-	expected = "(G).B.C.D.F.I.J.K.O.P.M.R.(V).E.H.N.Q.S.T.U.L."
+	expected = "(G).B.C.D.F.I.J.E.K.O.P.L.M.H.N.R.Q.S.T.U.(V)."
 	if actual.String() != expected {
 		t.Errorf("block ordering test not matched. expected=%s", expected)
 	}
